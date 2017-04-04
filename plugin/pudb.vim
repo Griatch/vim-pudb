@@ -9,10 +9,10 @@ if exists('g:loaded_pudb_plugin') || &cp
 endif
 let g:loaded_pudb_plugin = 1
 
-if !has("python")
-    echo "Error: Required vim compiled with +python"
-    finish
-endif
+"if !has("python") || !has("python3")
+"    echo "Error: Required vim compiled with +python or +python3."
+"    finish
+"endif
 
 sign define PudbBreakPoint text=Ø) texthl=error
 
@@ -24,6 +24,7 @@ augroup pudb
 augroup end
 
 command! TogglePudbBreakPoint call s:ToggleBreakPoint()
+command! ClearPudbBreakPoints call s:ClearPudbBreakPoints()
 
 function! s:UpdateBreakPoints()
 
@@ -92,3 +93,13 @@ vim.command('call s:UpdateBreakPoints()')
 EOF
 endfunction
 
+function! s:ClearPudbBreakPoints()
+python << EOF
+import vim
+from pudb.settings import save_breakpoints
+
+save_breakpoints([])
+
+vim.command('call s:UpdateBreakPoints()')
+EOF
+endfunction
