@@ -9,10 +9,10 @@ if exists('g:loaded_pudb_plugin') || &cp
 endif
 let g:loaded_pudb_plugin = 1
 
-"if !has("python") || !has("python3")
-"    echo "Error: Required vim compiled with +python or +python3."
-"    finish
-"endif
+if !has("nvim") && !has("python")
+    echo "Error: Requires nvim or vim compiled with +python."
+    finish
+endif
 
 sign define PudbBreakPoint text=Ø) texthl=error
 
